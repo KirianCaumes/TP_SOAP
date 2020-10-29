@@ -28,10 +28,6 @@ npm i #Only first name
 
 #### Run
 
-Go to debuger (Play Icon with a bug) and choose "🦊 Firefox" or "🌈 Chrome"
-
-OR
-
 ```sh
 cd ./front
 npm start
