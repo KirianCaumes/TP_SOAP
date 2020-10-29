@@ -1,27 +1,22 @@
-const soap = require('soap')
-const http = require('http')
+import soap from "soap"
+import http from "http"
+import { bookService } from "./services/book.service.js"
+import { authorService } from "./services/author.service.js"
+import fs from "fs"
+
+import Book from "./models/book.model.js"
+import Author from "./models/author.model.js"
+Book.sync()
+Author.sync()
 
 //https://stackoverflow.com/questions/22884513/simple-webservice-with-node-soap
-const service = {
-    ws: {
-        calc: {
-            sumar: function (args) {
-                var n = 1 * args.a + 1 * args.b
-                return { sumres: n }
-            },
-
-            multiplicar: function (args) {
-                var n = args.a * args.b
-                return { mulres: 'caca' }
-            }
-        }
-    }
-}
-
-const server = http.createServer(function (request, response) {
+const server = http.createServer((request, response) =>
     response.end("404: Not Found: " + request.url)
-})
+)
 
 server.listen(8001)
-soap.listen(server, '/wscalc1', service, require('fs').readFileSync('myservice.wsdl', 'utf8'))
-console.log("Running...")
+
+soap.listen(server, '/wsauthor', authorService, fs.readFileSync('./wsdl/author.wsdl', 'utf8'))
+soap.listen(server, '/wsbook', bookService, fs.readFileSync('./wsdl/book.wsdl', 'utf8'))
+
+console.log("Server running...")

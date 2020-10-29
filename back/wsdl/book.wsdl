@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="wsbook" targetNamespace="http://localhost:8000/wsbook" xmlns="http://localhost:8000/wsbook" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <!-- REQUESTS -->
+  <wsdl:message name="searchBookRequest">
+    <wsdl:part name="id" type="xs:integer"/> <!-- Not used but without doesn't work 🤷‍♀️-->
+  </wsdl:message>
+  <wsdl:message name="createBookRequest">
+    <wsdl:part name="firstName" type="xs:string"/>
+    <wsdl:part name="lastName" type="xs:string"/>
+  </wsdl:message>
+  <wsdl:message name="readBookRequest">
+    <wsdl:part name="id" type="xs:integer"/>
+  </wsdl:message>
+  <wsdl:message name="updateBookRequest">
+    <wsdl:part name="id" type="xs:integer"/>
+    <wsdl:part name="firstName" type="xs:string"/>
+    <wsdl:part name="lastName" type="xs:string"/>
+  </wsdl:message>
+  <wsdl:message name="deleteBookRequest">
+    <wsdl:part name="id" type="xs:integer"/>
+  </wsdl:message>
+
+  <!-- RESPONSES -->
+  <wsdl:message name="searchBookResponse">
+  </wsdl:message>
+  <wsdl:message name="createBookResponse">
+    <wsdl:part name="id" type="xs:integer"/>
+    <wsdl:part name="firstName" type="xs:string"/>
+    <wsdl:part name="lastName" type="xs:string"/>
+    <wsdl:part name="createdAt" type="xs:date"/>
+    <wsdl:part name="updatedAt" type="xs:date"/>
+  </wsdl:message>
+  <wsdl:message name="readBookResponse">
+    <wsdl:part name="id" type="xs:integer"/>
+    <wsdl:part name="firstName" type="xs:string"/>
+    <wsdl:part name="lastName" type="xs:string"/>
+    <wsdl:part name="createdAt" type="xs:date"/>
+    <wsdl:part name="updatedAt" type="xs:date"/>
+  </wsdl:message>
+  <wsdl:message name="updateBookResponse">
+    <wsdl:part name="id" type="xs:integer"/>
+    <wsdl:part name="firstName" type="xs:string"/>
+    <wsdl:part name="lastName" type="xs:string"/>
+    <wsdl:part name="createdAt" type="xs:date"/>
+    <wsdl:part name="updatedAt" type="xs:date"/>
+  </wsdl:message>
+  <wsdl:message name="deleteBookResponse">
+  </wsdl:message>
+
+  <!-- TYPES -->
+  <wsdl:portType name="bookPort">
+    <wsdl:operation name="searchBook">
+      <wsdl:input message="searchBookRequest"/>
+      <wsdl:output message="searchBookResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="createBook">
+      <wsdl:input message="createBookRequest"/>
+      <wsdl:output message="createBookResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="readBook">
+      <wsdl:input message="readBookRequest"/>
+      <wsdl:output message="readBookResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="updateBook">
+      <wsdl:input message="updateBookRequest"/>
+      <wsdl:output message="updateBookResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteBook">
+      <wsdl:input message="deleteBookRequest"/>
+      <wsdl:output message="deleteBookResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <!-- BINDINGS -->
+  <wsdl:binding name="bookBinding" type="bookPort">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="searchBook">
+      <soap:operation soapAction="searchBook"/>
+      <wsdl:input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createBook">
+      <soap:operation soapAction="createBook"/>
+      <wsdl:input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="readBook">
+      <soap:operation soapAction="readBook"/>
+      <wsdl:input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateBook">
+      <soap:operation soapAction="updateBook"/>
+      <wsdl:input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteBook">
+      <soap:operation soapAction="deleteBook"/>
+      <wsdl:input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ws">
+    <wsdl:port binding="bookBinding" name="book">
+      <soap:address location="http://localhost:8001/wsbook"/>
+    </wsdl:port>
+  </wsdl:service>
+
+</wsdl:definitions>

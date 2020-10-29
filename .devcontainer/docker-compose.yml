@@ -1,0 +1,55 @@
+version: '3'
+services:
+  soap_container:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    stdin_open: true
+    tty: true
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ../:/app_soap:rw
+      - /app_soap/front/node_modules
+
+      - ~/.ssh:/.ssh
+    ports:
+      - "5000:5000"
+      - '3000:3000'
+      - '8001:8001'
+    networks:
+      - backend_serv
+    depends_on:
+      - mysql_soap
+
+  mysql_soap:
+    image: mysql:5.7.32
+    container_name: mysql_soap
+    restart: always
+    ports:
+      - '3307:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: soapdb
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    networks:
+      - backend_serv
+
+  phpmyadmin:
+    depends_on:
+      - mysql_soap
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_soap
+    restart: always
+    ports:
+      - '8082:80'
+    environment:  
+      PMA_HOST: mysql_soap
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - backend_serv
+
+networks:
+  backend_serv:
+    driver: "bridge"
